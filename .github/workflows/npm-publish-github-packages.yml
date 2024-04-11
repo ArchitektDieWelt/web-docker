@@ -1,0 +1,63 @@
+name: Node.js Package
+
+on:
+  release:
+    types: [created]
+
+env:
+  VITE_APP_LOG_EVENTS: ${{ vars.VITE_APP_LOG_EVENTS }}
+  VITE_CONFIG_FILE_PATH: ${{ vars.VITE_CONFIG_FILE_PATH }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - run: npm ci
+      - run: npm run test:unit
+      - run: npm run build:teleporter
+      - uses: actions/upload-artifact@v3
+        with:
+          name: build-artifacts
+          path: dist
+
+  publish-gpr:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          registry-url: https://npm.pkg.github.com/
+          scope: '@openreply'
+      - run: npm ci
+      - uses: actions/download-artifact@v3
+        with:
+          name: build-artifacts
+          path: dist
+      - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+
+  publish-s3:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/download-artifact@v3
+        with:
+          name: build-artifacts
+          path: dist
+      - uses: shallwefootball/s3-upload-action@master
+        with:
+          aws_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
+          aws_bucket: ${{ vars.AWS_BUCKET }}
+          source_dir: 'dist'

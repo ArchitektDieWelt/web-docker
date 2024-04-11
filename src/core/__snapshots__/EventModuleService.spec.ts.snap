@@ -1,0 +1,22 @@
+// Vitest Snapshot v1
+
+exports[`EventModuleService > does not reinject assets 1`] = `
+<div>
+  <link />
+  <testcomponent />
+</div>
+`;
+
+exports[`EventModuleService > injects assets and mounts custom component 1`] = `
+<div>
+  <link />
+  <testcomponent />
+</div>
+`;
+
+exports[`EventModuleService > injects assets with no custom component if custom component name is not provided 1`] = `
+<div>
+  <link />
+  <testcomponent />
+</div>
+`;

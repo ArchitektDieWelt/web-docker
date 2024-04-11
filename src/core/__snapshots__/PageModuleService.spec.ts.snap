@@ -1,0 +1,33 @@
+// Vitest Snapshot v1
+
+exports[`PageModuleService > does not inject assets if URL of the page does not match 1`] = `<body />`;
+
+exports[`PageModuleService > injects assets if URL of the page matches 1`] = `
+<body>
+  <link />
+</body>
+`;
+
+exports[`PageModuleService > injects assets if URL of the page matches subpath of the given regex pattern - as string 1`] = `
+<body>
+  <link />
+</body>
+`;
+
+exports[`PageModuleService > injects assets if URL of the page matches the given regex pattern - as string 1`] = `
+<body>
+  <link />
+</body>
+`;
+
+exports[`PageModuleService > injects assets if empty page arrays was provided 1`] = `
+<body>
+  <link />
+</body>
+`;
+
+exports[`PageModuleService > injects assets without custom element if URL of the page matches 1`] = `
+<body>
+  <link />
+</body>
+`;

@@ -1,0 +1,22 @@
+// Vitest Snapshot v1
+
+exports[`ModuleRegistry > adds new component service 1`] = `
+<body>
+  <link />
+  <testcomponenta />
+</body>
+`;
+
+exports[`ModuleRegistry > overrides service with similar journey names 1`] = `
+<body>
+  <link />
+  <testcomponent />
+</body>
+`;
+
+exports[`ModuleRegistry > overrides service with similar module names 1`] = `
+<body>
+  <link />
+  <link />
+</body>
+`;
