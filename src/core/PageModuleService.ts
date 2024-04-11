@@ -9,7 +9,6 @@ import { ModuleService } from "~/core/ModuleService";
 
 class PageModuleService implements ModuleService {
   private readonly logger: Logger = new Logger("PageModuleService");
-  private assetsInjected = false;
 
   constructor(
     private readonly config: PageModuleConfig,
@@ -48,8 +47,6 @@ class PageModuleService implements ModuleService {
 
     this.logger.log("injected assets in head", headAssets);
     this.logger.log("injected assets in body", bodyAssets);
-
-    this.assetsInjected = true;
   }
 
   get assetSources(): string[] {

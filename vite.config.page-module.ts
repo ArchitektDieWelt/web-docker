@@ -2,8 +2,7 @@ import { fileURLToPath, URL } from "url";
 
 import { defineConfig, loadEnv } from "vite";
 import * as path from "path";
-import { generateJs } from "./src/plugin/plugin";
-import namespace from "./src/plugin/namespace";
+import { viteWebDockerFile } from "./src/plugin/plugin";
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd());
@@ -14,14 +13,13 @@ export default defineConfig(({ mode }) => {
       : {};
   return {
     plugins: [
-      generateJs({
+      viteWebDockerFile({
         basePath: "http://localhost:3010/page-module/",
         id: "src/fragment/page-module.ts",
         module: "fragment-on-page",
         type: "page",
         selector: "fragment-on-page",
       }),
-      namespace(),
     ],
     build: {
       outDir: "dist/fragment/page-module",

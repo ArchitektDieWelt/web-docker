@@ -12,10 +12,39 @@ registry. The registry is responsible for loading the resources.
    is uploaded as a build artifact.
 4. tests: A folder containing end-to-end tests for fragment, test-host and web docker (using playwright)
 
+### Observed Modules
+
+Assets for observed modules are initially not injected in page. An observation mechanism examines the page for frequent updates
+and injects the assets only if the custom elements associated with the module are present on the page
+
+### Page Modules
+
+These are modules which are injected into the page as soon as the first render is finished.
+
 ### Local development
 
+1. run following build commands to create the test fragments
+   ```bash
+      nvm use
+      npm run build:page-module
+      npm run build:observed-module
+   ```
+2. Serve the fragments
+   ```bash
+      nvm use
+      npm run serve:fragments
+   ```
+3. Serve the test host
+   ```bash
+      nvm use
+      npm run dev:test-host
+   ```
+4. on the browser, navigate to `http://localhost:5173/test-host.html` to see the test host and the loaded page fragment
+NOTE: navigating to `http://localhost:5173` will not show the fragment as the test host is not loaded on the root path
 #### .env entries
 
 ```bash
 VITE_APP_LOG_EVENTS=true
 ```
+
+

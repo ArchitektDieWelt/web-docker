@@ -1,6 +1,8 @@
 import { Plugin } from "vite";
+import { runtime } from "./runtime";
+import namespace from "./namespace";
 
-export function generateJs({
+export function viteWebDockerFile({
   id,
   type,
   module,
@@ -12,40 +14,6 @@ export function generateJs({
   module: string;
   selector?: string;
   basePath: string;
-}): Plugin {
-  let ref1: string;
-
-  return {
-    name: "generate-js",
-    buildStart() {
-      ref1 = this.emitFile({
-        type: "chunk",
-        id,
-      });
-    },
-    generateBundle() {
-      this.emitFile({
-        type: "asset",
-        fileName: "index.js",
-        source: `
-          (function () {
-            const config = {
-              version: "1.0.0",
-              assets: [
-                {
-                  type: "js",
-                  src: "${basePath.concat(this.getFileName(ref1))}"
-                }
-              ],
-              type: "${type}",
-              module: "${module}",
-              pages: [".*"],
-              selector: "${selector}",
-            };
-            window.dispatchEvent(new CustomEvent('openreply:web-docker:register', {detail: config}));
-          })();
-        `,
-      });
-    },
-  };
+}): Plugin[] {
+  return [runtime({ id, type, module, selector, basePath }), namespace()];
 }

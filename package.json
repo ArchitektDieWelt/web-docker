@@ -12,7 +12,7 @@
     }
   },
   "scripts": {
-    "dev:test-host": "vite --config vite.config.test-host.ts",
+    "dev:test-host": "vite --config vite.config.test-host.ts --host",
     "build:web-docker": "vue-tsc --noEmit && vite build --config vite.config.web-docker.ts",
     "build:test-host": "vue-tsc --noEmit && vite build --config vite.config.test-host.ts",
     "build:page-module": "vue-tsc --noEmit && vite build --config vite.config.page-module.ts",
@@ -27,8 +27,7 @@
     "generate:qa": "npx playwright codegen",
     "test:e2e": "playwright test",
     "test:unit": "export VITE_CONFIG_FILE_PATH=/assets/config.json && vitest",
-    "typecheck": "vue-tsc --noEmit",
-    "create:encoded-url": "ts-node -r tsconfig-paths/register --project ./tsconfig.script.json ./src/utils/create-encoded-urls.ts"
+    "typecheck": "vue-tsc --noEmit"
   },
   "devDependencies": {
     "vue": "^3.2.25",
