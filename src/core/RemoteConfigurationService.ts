@@ -12,7 +12,7 @@ class RemoteConfigurationService {
   constructor(remoteConfig: RemoteConfig) {
     if (!remoteConfig.configFilePath) {
       this.logger.log(
-        `No CONFIG_FILE_PATH has been set. Disabling teleporter's remote configs.`
+        `No CONFIG_FILE_PATH has been set. Disabling web docker's remote configs.`
       );
     } else {
       this.configFilePath = remoteConfig.configFilePath;

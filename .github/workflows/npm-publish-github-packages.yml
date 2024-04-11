@@ -18,7 +18,7 @@ jobs:
           node-version: 16
       - run: npm ci
       - run: npm run test:unit
-      - run: npm run build:teleporter
+      - run: npm run build:web-docker
       - uses: actions/upload-artifact@v3
         with:
           name: build-artifacts
