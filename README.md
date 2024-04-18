@@ -4,6 +4,8 @@ The Webdocker is a central registry or [Subject](https://en.wikipedia.org/wiki/O
 to which fragments(web components) can subscribe. Subscribed fragments declare their resources (js or CSS scripts) to the
 registry. The registry is responsible for loading the resources.
 
+It is mostly used for delivery of microfrontends to the overall project, providing multiple ways to trigger the assets injection.
+
 ### Summary of setup
 
 1. fragment: Next to Web Docker, this repo contains a fragment folder, which mocks the behavior of a fragment
@@ -41,10 +43,28 @@ These are modules which are injected into the page as soon as the first render i
    ```
 4. on the browser, navigate to `http://localhost:5173/test-host.html` to see the test host and the loaded page fragment
 NOTE: navigating to `http://localhost:5173` will not show the fragment as the test host is not loaded on the root path
-#### .env entries
 
-```bash
-VITE_APP_LOG_EVENTS=true
+#### Environment variables
+logging is disabled by default. To enable logging, set the following environment variable
+   
+   ```bash
+    VITE_APP_LOG_EVENTS=true
+   ```
+
+### APIS
+
+In order to register new components to the web docker, the following APIs can be used
+
+## 1 - Registering using custom events
+
+```javascript
+    window.dispatchEvent(new CustomEvent('webdocker:register', {
+        detail: {
+            name: 'page-module',
+            resources: [
+                'http://domain/page-module.js',
+                'http://domain/page-module.css'
+            ]
+        }
+    }));
 ```
-
-

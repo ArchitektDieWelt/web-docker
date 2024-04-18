@@ -15,7 +15,7 @@ export default defineConfig(({ mode }) => {
     plugins: [
       viteWebDockerFile({
         basePath: "http://localhost:3010/observed-module/",
-        id: "src/fragment/observed-module.ts",
+        entry: "src/fragment/observed-module.ts",
         module: "observed-fragment",
         type: "observed",
         selector: "observed-fragment",

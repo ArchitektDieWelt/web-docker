@@ -17,6 +17,8 @@
     "build:test-host": "vue-tsc --noEmit && vite build --config vite.config.test-host.ts",
     "build:page-module": "vue-tsc --noEmit && vite build --config vite.config.page-module.ts",
     "build:observed-module": "vue-tsc --noEmit && vite build --config vite.config.observed-module.ts",
+    "build:remote:page-module": "vue-tsc --noEmit && vite build --config vite.config.remote-page-module.ts",
+    "build:remote:observed-module": "vue-tsc --noEmit && vite build --config vite.config.remote-observed-module.ts",
     "serve:test-host": "http-server --cors='*' -p 3000 dist/test-host",
     "serve:fragments": "http-server --cors='*' -p 3010 dist/fragment",
     "serve:web-docker": "http-server --cors='*' -p 3020 dist",

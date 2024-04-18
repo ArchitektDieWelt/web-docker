@@ -31,7 +31,7 @@ const initialize = async (remoteConfig: RemoteConfig) => {
   });
 };
 
-window.openreply = { initialize };
+window.webdocker = { initialize };
 
 window.addEventListener(
   InitializeEventType,

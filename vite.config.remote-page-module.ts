@@ -2,7 +2,7 @@ import { fileURLToPath, URL } from "url";
 
 import { defineConfig, loadEnv } from "vite";
 import * as path from "path";
-import { viteWebDockerFile } from "./src/plugin/plugin";
+import { viteWebDockerRemoteFile } from "./src/plugin/remote";
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd());
@@ -13,12 +13,13 @@ export default defineConfig(({ mode }) => {
       : {};
   return {
     plugins: [
-      viteWebDockerFile({
+      viteWebDockerRemoteFile({
+        fileName: "fragment-on-page.json",
         basePath: "http://localhost:3010/page-module/",
         entry: "src/fragment/page-module.ts",
         module: "fragment-on-page",
         type: "page",
-        selector: "fragment-on-page",
+        pages: [".*"],
       }),
     ],
     build: {

@@ -1,6 +1,6 @@
 import { Config } from "~/core/Config";
 
-export const RegisterEventType = "openreply:web-docker:register" as const;
+export const RegisterEventType = "web-docker:register" as const;
 
 class RegisterEvent extends CustomEvent<Config> {
   constructor(detail: Config) {

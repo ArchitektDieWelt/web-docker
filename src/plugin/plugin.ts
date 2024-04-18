@@ -3,17 +3,17 @@ import { runtime } from "./runtime";
 import namespace from "./namespace";
 
 export function viteWebDockerFile({
-  id,
+  entry,
   type,
   module,
   selector,
   basePath,
 }: {
-  id: string;
+  entry: string;
   type: "page" | "observed";
   module: string;
   selector?: string;
   basePath: string;
 }): Plugin[] {
-  return [runtime({ id, type, module, selector, basePath }), namespace()];
+  return [runtime({ entry, type, module, selector, basePath }), namespace()];
 }

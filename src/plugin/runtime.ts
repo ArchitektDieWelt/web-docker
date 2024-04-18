@@ -1,13 +1,13 @@
 import { Plugin } from "vite";
 
 export function runtime({
-  id,
+  entry,
   type,
   module,
   selector,
   basePath,
 }: {
-  id: string;
+  entry: string;
   type: "page" | "observed";
   module: string;
   selector?: string;
@@ -20,7 +20,7 @@ export function runtime({
     buildStart() {
       ref1 = this.emitFile({
         type: "chunk",
-        id,
+        id: entry,
       });
     },
     generateBundle() {
@@ -42,7 +42,7 @@ export function runtime({
               pages: [".*"],
               selector: "${selector}",
             };
-            window.dispatchEvent(new CustomEvent('openreply:web-docker:register', {detail: config}));
+            window.dispatchEvent(new CustomEvent('web-docker:register', {detail: config}));
           })();
         `,
       });

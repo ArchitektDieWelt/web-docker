@@ -9,7 +9,7 @@ declare global {
     [InitializeEventType]: InitializeEvent;
   }
   interface Window {
-    openreply: {
+    webdocker: {
       initialize: (config: {
         configFilePath: string;
       }) => void;
