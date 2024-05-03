@@ -1,21 +1,19 @@
 import { Logger } from "~/core/Logger";
 import { Config } from "~/core/Config";
-
-export type RemoteConfig = {
-  configFilePath?: string;
-};
+import { WebDockerOptions } from "~/core/initialize";
 
 class RemoteConfigurationService {
-  private readonly logger = new Logger("RemoteConfigurationService");
+  private readonly logger;
   private readonly configFilePath: string | undefined = undefined;
 
-  constructor(remoteConfig: RemoteConfig) {
-    if (!remoteConfig.configFilePath) {
+  constructor(options: WebDockerOptions) {
+    this.logger = new Logger("RemoteConfigurationService", options.logEvents ?? false);
+    if (!options.configFilePath) {
       this.logger.log(
         `No CONFIG_FILE_PATH has been set. Disabling web docker's remote configs.`
       );
     } else {
-      this.configFilePath = remoteConfig.configFilePath;
+      this.configFilePath = options.configFilePath;
       this.logger.log(
         `Initializing RemoteConfigurationService with CONFIG_FILE_PATH: ${this.configFilePath}.`
       );

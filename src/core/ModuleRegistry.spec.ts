@@ -28,7 +28,7 @@ afterEach(() => {
 
 describe("ModuleRegistry", () => {
   it("constructs", () => {
-    const moduleRegistry = new ModuleRegistry();
+    const moduleRegistry = new ModuleRegistry(false);
 
     expect(moduleRegistry).toBeTruthy();
   });
@@ -38,11 +38,11 @@ describe("ModuleRegistry", () => {
         return [document.createElement("link")];
       },
     };
-    const moduleRegistry = new ModuleRegistry(assetFactoryMock);
+    const moduleRegistry = new ModuleRegistry(false, assetFactoryMock);
 
     const service = moduleRegistry.add(config);
 
-    expect(service.module).toBe('test-module')
+    expect(service.module).toBe("test-module");
   });
 
   it("does not allow services with similar custom component names", () => {
@@ -51,7 +51,7 @@ describe("ModuleRegistry", () => {
         return [document.createElement("link")];
       },
     };
-    const moduleRegistry = new ModuleRegistry(assetFactoryMock);
+    const moduleRegistry = new ModuleRegistry(false, assetFactoryMock);
 
     moduleRegistry.add(config);
 
@@ -64,7 +64,7 @@ describe("ModuleRegistry", () => {
         return [document.createElement("link")];
       },
     };
-    const moduleRegistry = new ModuleRegistry(assetFactoryMock);
+    const moduleRegistry = new ModuleRegistry(false, assetFactoryMock);
 
     moduleRegistry.add(config);
 
@@ -77,7 +77,7 @@ describe("ModuleRegistry", () => {
         return [document.createElement("link")];
       },
     };
-    const moduleRegistry = new ModuleRegistry(assetFactoryMock);
+    const moduleRegistry = new ModuleRegistry(false, assetFactoryMock);
 
     const assetB: Asset = {
       async: false,
@@ -108,7 +108,7 @@ describe("ModuleRegistry", () => {
         return [document.createElement("link")];
       },
     };
-    const moduleRegistry = new ModuleRegistry(assetFactoryMock);
+    const moduleRegistry = new ModuleRegistry(false, assetFactoryMock);
 
     const initialConfig: ModuleConfig = {
       pages: [],

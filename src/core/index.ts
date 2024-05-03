@@ -10,9 +10,7 @@ declare global {
   }
   interface Window {
     webdocker: {
-      initialize: (config: {
-        configFilePath: string;
-      }) => void;
+      initialize: (config: { configFilePath: string }, logEvents: boolean) => void;
     };
   }
 }

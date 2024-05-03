@@ -4,15 +4,17 @@ import type { IncludeType, ObservedModuleConfig } from "~/core/ModuleConfig";
 import { ModuleService } from "~/core/ModuleService";
 
 class ObservedModuleService implements ModuleService {
-  private readonly logger: Logger = new Logger("ObserverModuleService");
+  private readonly logger: Logger;
   private assetsInjected = false;
 
   constructor(
     private readonly config: ObservedModuleConfig,
     private readonly assetFactory = new AssetFactory(),
+    logEvents: boolean,
     private readonly documentBody = document.body,
     private readonly documentHead = document.head
   ) {
+    this.logger = new Logger("ObservedModuleService", logEvents);
     this.assetFactory = assetFactory;
 
     if (this.elementExists()) this.injectAssets();

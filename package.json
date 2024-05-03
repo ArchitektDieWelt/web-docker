@@ -2,7 +2,9 @@
   "name": "@openreplyde/web-docker",
   "version": "1.0.0-alpha.1",
   "type": "module",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "main": "./dist/index.umd.js",
   "module": "./dist/index.mjs",
   "exports": {
@@ -11,9 +13,11 @@
       "require": "./dist/index.umd.js"
     }
   },
+  "types": "./dist/index.d.ts",
   "scripts": {
     "dev:test-host": "vite --config vite.config.test-host.ts --host",
     "build:web-docker": "vue-tsc --noEmit && vite build --config vite.config.web-docker.ts",
+    "build:web-docker:lib": "tsc --project ./tsconfig.lib.json",
     "build:test-host": "vue-tsc --noEmit && vite build --config vite.config.test-host.ts",
     "build:page-module": "vue-tsc --noEmit && vite build --config vite.config.page-module.ts",
     "build:observed-module": "vue-tsc --noEmit && vite build --config vite.config.observed-module.ts",
@@ -32,7 +36,6 @@
     "typecheck": "vue-tsc --noEmit"
   },
   "devDependencies": {
-    "vue": "^3.2.25",
     "@playwright/test": "1.29.0",
     "@testing-library/dom": "^8.14.0",
     "@types/node": "^18.0.0",
@@ -50,6 +53,7 @@
     "vite": "^4.4.9",
     "vitest": "^0.16.0",
     "vitest-fetch-mock": "^0.2.1",
+    "vue": "^3.2.25",
     "vue-tsc": "^0.38.2",
     "wait-on": "^7.2.0"
   }

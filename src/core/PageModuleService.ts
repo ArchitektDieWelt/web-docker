@@ -8,14 +8,16 @@ import type {
 import { ModuleService } from "~/core/ModuleService";
 
 class PageModuleService implements ModuleService {
-  private readonly logger: Logger = new Logger("PageModuleService");
+  private readonly logger: Logger;
 
   constructor(
     private readonly config: PageModuleConfig,
     private readonly assetFactory = new AssetFactory(),
+    private readonly logEvents: boolean = false,
     private readonly documentBody = document.body,
     private readonly documentHead = document.head
   ) {
+    this.logger = new Logger("PageModuleService", this.logEvents);
     this.assetFactory = assetFactory;
 
     if (config.pages.length === 0 || config.pages.some(this.matches))

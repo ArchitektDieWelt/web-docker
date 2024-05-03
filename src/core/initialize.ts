@@ -1,5 +1,4 @@
 import {
-  RemoteConfig,
   RemoteConfigurationService,
 } from "~/core/RemoteConfigurationService";
 import ModuleRegistry from "~/core/ModuleRegistry";
@@ -8,21 +7,21 @@ import { ModuleConfigService } from "~/core/ModuleConfig";
 import { RegisterEventType } from "~/core/RegisterEvent";
 import { InitializeEventType } from "~/core/InitializeEvent";
 
-const initialize = async (remoteConfig: RemoteConfig) => {
+export type WebDockerOptions = {
+  configFilePath?: string;
+  logEvents?: boolean;
+};
+
+const initialize = async (options: WebDockerOptions) => {
   const moduleConfigService = new ModuleConfigService();
-  const registry = new ModuleRegistry();
-  const remoteConfigurationService = new RemoteConfigurationService(
-    remoteConfig
-  );
+  const registry = new ModuleRegistry(options.logEvents ?? false);
+  const remoteConfigurationService = new RemoteConfigurationService(options);
   // NOTE: event registry has to be done before any async operation. Since Async operations
   // do not block the event loop and the registration event might be dispatched while another event loop is running.
-  window.addEventListener(
-    RegisterEventType,
-    (event: CustomEvent<Config>) => {
-      const config = moduleConfigService.getModuleConfig(event.detail);
-      registry.addReplace(config);
-    }
-  );
+  window.addEventListener(RegisterEventType, (event: CustomEvent<Config>) => {
+    const config = moduleConfigService.getModuleConfig(event.detail);
+    registry.addReplace(config);
+  });
 
   const remoteConfigurations = await remoteConfigurationService.fetch();
   remoteConfigurations?.forEach((config: Config) => {
@@ -35,7 +34,7 @@ window.webdocker = { initialize };
 
 window.addEventListener(
   InitializeEventType,
-  async (event: CustomEvent<RemoteConfig>) => {
+  async (event: CustomEvent<WebDockerOptions>) => {
     await initialize(event.detail);
   }
 );

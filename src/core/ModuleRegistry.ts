@@ -11,9 +11,11 @@ export interface ModuleRegistryInterface {
 }
 
 class ModuleRegistry implements ModuleRegistryInterface {
-  private readonly logger = new Logger("ModuleRegistry");
+  private readonly logger;
   private readonly moduleServices: ModuleService[] = [];
-  constructor(private readonly assetFactory = new AssetFactory()) {}
+  constructor(private readonly logEvents: boolean, private readonly assetFactory = new AssetFactory()) {
+    this.logger = new Logger("ModuleRegistry", logEvents);
+  }
 
   add(config: ModuleConfig): ModuleService {
     const registeredAssets: string[] = this.moduleServices.reduce<string[]>(
@@ -70,12 +72,12 @@ class ModuleRegistry implements ModuleRegistryInterface {
 
   private addModule(moduleConfig: ModuleConfig) {
     if (moduleConfig.type === "page") {
-      const service = new PageModuleService(moduleConfig, this.assetFactory);
+      const service = new PageModuleService(moduleConfig, this.assetFactory, this.logEvents);
       this.logger.log("registered page module: ", moduleConfig.module);
       this.moduleServices.push(service);
       return service;
     } else {
-      const service = new ObservedModuleService(moduleConfig, this.assetFactory);
+      const service = new ObservedModuleService(moduleConfig, this.assetFactory, this.logEvents);
       this.logger.log("registered observed module: ", moduleConfig.module);
       this.moduleServices.push(service);
       return service;

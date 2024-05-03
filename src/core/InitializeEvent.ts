@@ -1,9 +1,11 @@
-import { RemoteConfig } from "~/core/RemoteConfigurationService";
 
 export const InitializeEventType = "web-docker:initialize" as const;
 
-class InitializeEvent extends CustomEvent<RemoteConfig> {
-  constructor(detail: RemoteConfig) {
+class InitializeEvent extends CustomEvent<{
+  configFilePath: string;
+  logEvents: boolean;
+}> {
+  constructor(detail: { configFilePath: string; logEvents: boolean }) {
     super(InitializeEventType, { detail });
   }
 }
