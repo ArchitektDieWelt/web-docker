@@ -18,7 +18,8 @@ jobs:
           node-version: 20
       - run: npm ci
       - run: npm run test:unit
-      - run: npm run build:web-docker:lib
+      - run: npm run build:web-docker
+      - run: npm run build:web-docker:types
       - uses: actions/upload-artifact@v3
         with:
           name: build-artifacts
