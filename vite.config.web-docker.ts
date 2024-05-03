@@ -25,7 +25,7 @@ export default defineConfig(({ mode }) => {
         fileName: "index",
       },
       sourcemap: env.VITE_APP_SOURCE_MAPS_ENABLED === "true",
-      outDir: "dist/web-docker",
+      outDir: "dist",
       rollupOptions: {
         output: {
           ...entries,
