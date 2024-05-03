@@ -1,19 +1,19 @@
 {
   "name": "@openreplyde/web-docker",
-  "version": "1.0.0-alpha.4",
+  "version": "1.0.0-alpha.5",
   "type": "module",
   "files": [
     "dist"
   ],
   "main": "./dist/index.umd.js",
-  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "module": "./dist/index.js",
   "exports": {
     ".": {
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.umd.js"
+      "import": "./dist/index.js",
+      "require": "./dist/index.umd.cjs"
     }
   },
-  "types": "./dist/index.d.ts",
   "scripts": {
     "dev:test-host": "vite --config vite.config.test-host.ts --host",
     "build:web-docker": "vue-tsc --noEmit && vite build --config vite.config.web-docker.ts",
