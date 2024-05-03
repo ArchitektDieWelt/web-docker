@@ -30,13 +30,4 @@ const initialize = async (options: WebDockerOptions) => {
   });
 };
 
-window.webdocker = { initialize };
-
-window.addEventListener(
-  InitializeEventType,
-  async (event: CustomEvent<WebDockerOptions>) => {
-    await initialize(event.detail);
-  }
-);
-
 export default initialize;
