@@ -5,7 +5,6 @@ import ModuleRegistry from "~/core/ModuleRegistry";
 import { Config } from "~/core/Config";
 import { ModuleConfigService } from "~/core/ModuleConfig";
 import { RegisterEventType } from "~/core/RegisterEvent";
-import { InitializeEventType } from "~/core/InitializeEvent";
 
 export type WebDockerOptions = {
   configFilePath?: string;

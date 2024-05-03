@@ -20,7 +20,7 @@ export default defineConfig(({ mode }) => {
     base: base,
     build: {
       lib: {
-        entry: resolve(__dirname, "src/core/main.ts"),
+        entry: resolve(__dirname, "src/core/index.ts"),
         name: "WebDocker",
         fileName: "index",
       },
