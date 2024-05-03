@@ -1,18 +1,11 @@
 {
   "name": "@openreplyde/web-docker",
-  "version": "1.0.0-alpha.2",
+  "version": "1.0.0-alpha.3",
   "type": "module",
   "files": [
     "dist"
   ],
-  "main": "./dist/index.umd.js",
-  "module": "./dist/index.mjs",
-  "exports": {
-    ".": {
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.umd.js"
-    }
-  },
+  "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
     "dev:test-host": "vite --config vite.config.test-host.ts --host",
