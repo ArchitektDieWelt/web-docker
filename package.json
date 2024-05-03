@@ -1,5 +1,5 @@
 {
-  "name": "@openreply/web-docker",
+  "name": "@openreplyde/web-docker",
   "version": "1.0.0-alpha.1",
   "type": "module",
   "files": ["dist"],
