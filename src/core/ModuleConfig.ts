@@ -24,6 +24,10 @@ export interface PageInclude {
 export interface PageModuleConfig extends ModuleConfigBase {
   type: "page";
   pages: (string | PageInclude)[];
+  share?: {
+    name: string;
+    version: string;
+  };
 }
 
 export type ModuleConfig = ObservedModuleConfig | PageModuleConfig;
@@ -32,38 +36,47 @@ export class ModuleConfigService {
   public getModuleConfig(config: Config): ModuleConfig {
     if (!config.version)
       throw Error(
-        `Your tried to register a config with new structure:  ${JSON.stringify(
-          config
-        )}  it was missing the version field`
+        `webdocker config:  ${JSON.stringify(config)} missing the version field`
       );
 
     if (!config.assets)
       throw Error(
-        `Your tried to register a config with new structure:  ${JSON.stringify(
+        `webdocker config:  ${JSON.stringify(
           config
         )}  it was missing the assets field`
       );
 
     if (!config.module)
       throw Error(
-        `Your tried to register a config with new structure:  ${JSON.stringify(
+        `webdocker config:  ${JSON.stringify(
           config
         )}  it was missing the module field`
       );
 
     if (!config.type)
       throw Error(
-        `Your tried to register a config with new structure: ${JSON.stringify(
-          config
-        )}  it was missing the type field`
+        `webdocker config: ${JSON.stringify(config)}  missing the type field`
       );
 
     if (config.type === "page" && !config.pages)
       throw Error(
-        `Your tried to register a config with new structure of page include type:  ${JSON.stringify(
-          config
-        )}  it was missing the pages field`
+        `webdocker config:  ${JSON.stringify(config)}  missing the pages field`
       );
+
+    if (config.type === "page" && config.share) {
+      if (config.assets.length > 1)
+        throw Error(
+          `webdocker config:  ${JSON.stringify(
+            config
+          )}  if share is true, only one asset can be included.`
+        );
+      if (config.assets[0].type !== "js")
+        throw Error(
+          `webdocker config:  ${JSON.stringify(
+            config
+          )}  if share is true, the asset must be a js script.`
+        );
+    }
 
     return config;
   }

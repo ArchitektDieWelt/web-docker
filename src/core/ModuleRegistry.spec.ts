@@ -1,4 +1,4 @@
-import { describe, it, expect, afterEach } from "vitest";
+import { describe, it, expect, afterEach, beforeEach } from "vitest";
 import ModuleRegistry from "~/core/ModuleRegistry";
 import { Asset } from "~/core/Asset";
 import AssetFactory from "~/core/AssetFactory";
@@ -24,6 +24,7 @@ const config: ModuleConfig = {
 
 afterEach(() => {
   document.body.innerHTML = "";
+  document.head.innerHTML = "";
 });
 
 describe("ModuleRegistry", () => {
@@ -131,5 +132,31 @@ describe("ModuleRegistry", () => {
     moduleRegistry.addReplace(configOverride);
 
     expect(document.body).toMatchSnapshot();
+  });
+
+
+  it("adds a shared page module", () => {
+    const assetFactoryMock: AssetFactory = {
+      create(): (HTMLLinkElement | HTMLScriptElement)[] {
+        return [document.createElement("link")];
+      },
+    };
+    const moduleRegistry = new ModuleRegistry(false, assetFactoryMock);
+
+    const initialConfig: ModuleConfig = {
+      pages: [],
+      type: "page",
+      version: "1.0.0",
+      assets: [asset],
+      module: "test-module",
+      share: {
+        name: "test",
+        version: "1.0.0",
+      }
+    };
+
+    moduleRegistry.add(initialConfig);
+
+    expect(document.head).toMatchSnapshot();
   });
 });

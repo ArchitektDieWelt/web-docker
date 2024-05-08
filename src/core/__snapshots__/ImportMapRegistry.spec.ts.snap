@@ -1,0 +1,29 @@
+// Vitest Snapshot v1
+
+exports[`ImportMapRegistry > injects import map to page 1`] = `
+<head>
+  <script
+    type="importmap"
+  />
+</head>
+`;
+
+exports[`ImportMapRegistry > injects multiple entries to import map 1`] = `
+<head>
+  <script
+    type="importmap"
+  >
+    {"test-module":"/test-module.js","test-module2":"/test-module2.js"}
+  </script>
+</head>
+`;
+
+exports[`ImportMapRegistry > injects new entry to import map 1`] = `
+<head>
+  <script
+    type="importmap"
+  >
+    {"test-module":"/test-module.js"}
+  </script>
+</head>
+`;

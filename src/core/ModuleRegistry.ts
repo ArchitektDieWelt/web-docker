@@ -5,6 +5,7 @@ import { Config } from "~/core/Config";
 import { ModuleConfig } from "~/core/ModuleConfig";
 import { PageModuleService } from "~/core/PageModuleService";
 import { ObservedModuleService } from "~/core/ObservedModuleService";
+import { ImportMapRegistry } from "~/core/ImportMapRegistry";
 
 export interface ModuleRegistryInterface {
   add(config: Config): ModuleService;
@@ -13,7 +14,11 @@ export interface ModuleRegistryInterface {
 class ModuleRegistry implements ModuleRegistryInterface {
   private readonly logger;
   private readonly moduleServices: ModuleService[] = [];
-  constructor(private readonly logEvents: boolean, private readonly assetFactory = new AssetFactory()) {
+  private readonly importMapRegistry = new ImportMapRegistry();
+  constructor(
+    private readonly logEvents: boolean,
+    private readonly assetFactory = new AssetFactory()
+  ) {
     this.logger = new Logger("ModuleRegistry", logEvents);
   }
 
@@ -72,12 +77,25 @@ class ModuleRegistry implements ModuleRegistryInterface {
 
   private addModule(moduleConfig: ModuleConfig) {
     if (moduleConfig.type === "page") {
-      const service = new PageModuleService(moduleConfig, this.assetFactory, this.logEvents);
+      const service = new PageModuleService(
+        moduleConfig,
+        this.assetFactory,
+        this.logEvents
+      );
       this.logger.log("registered page module: ", moduleConfig.module);
       this.moduleServices.push(service);
+      if (moduleConfig.share) {
+        this.importMapRegistry.add({
+          [moduleConfig.share.name]: moduleConfig.assets[0].src,
+        });
+      }
       return service;
     } else {
-      const service = new ObservedModuleService(moduleConfig, this.assetFactory, this.logEvents);
+      const service = new ObservedModuleService(
+        moduleConfig,
+        this.assetFactory,
+        this.logEvents
+      );
       this.logger.log("registered observed module: ", moduleConfig.module);
       this.moduleServices.push(service);
       return service;

@@ -23,6 +23,10 @@ and injects the assets only if the custom elements associated with the module ar
 
 These are modules which are injected into the page as soon as the first render is finished.
 
+### Global Modules
+
+These are particular types of page modules which can be used by other modules as shared dependency.   
+
 ### Local development
 
 1. run following build commands to create the test fragments
