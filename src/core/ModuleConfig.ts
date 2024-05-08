@@ -26,7 +26,6 @@ export interface PageModuleConfig extends ModuleConfigBase {
   pages: (string | PageInclude)[];
   share?: {
     name: string;
-    version: string;
   };
 }
 
