@@ -77,6 +77,13 @@ class ModuleRegistry implements ModuleRegistryInterface {
 
   private addModule(moduleConfig: ModuleConfig) {
     if (moduleConfig.type === "page") {
+      // NOTE: the order of adding import map dynamically is important,
+      // it should be done before the module is loaded
+      if (moduleConfig.share) {
+        this.importMapRegistry.add({
+          [moduleConfig.share.name]: moduleConfig.assets[0].src,
+        });
+      }
       const service = new PageModuleService(
         moduleConfig,
         this.assetFactory,
@@ -84,11 +91,6 @@ class ModuleRegistry implements ModuleRegistryInterface {
       );
       this.logger.log("registered page module: ", moduleConfig.module);
       this.moduleServices.push(service);
-      if (moduleConfig.share) {
-        this.importMapRegistry.add({
-          [moduleConfig.share.name]: moduleConfig.assets[0].src,
-        });
-      }
       return service;
     } else {
       const service = new ObservedModuleService(
