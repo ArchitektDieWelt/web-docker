@@ -24,9 +24,6 @@ export interface PageInclude {
 export interface PageModuleConfig extends ModuleConfigBase {
   type: "page";
   pages: (string | PageInclude)[];
-  share?: {
-    name: string;
-  };
 }
 
 export type ModuleConfig = ObservedModuleConfig | PageModuleConfig;
@@ -61,21 +58,6 @@ export class ModuleConfigService {
       throw Error(
         `webdocker config:  ${JSON.stringify(config)}  missing the pages field`
       );
-
-    if (config.type === "page" && config.share) {
-      if (config.assets.length > 1)
-        throw Error(
-          `webdocker config:  ${JSON.stringify(
-            config
-          )}  if share is true, only one asset can be included.`
-        );
-      if (config.assets[0].type !== "js")
-        throw Error(
-          `webdocker config:  ${JSON.stringify(
-            config
-          )}  if share is true, the asset must be a js script.`
-        );
-    }
 
     return config;
   }
