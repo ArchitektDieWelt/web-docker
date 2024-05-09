@@ -133,29 +133,4 @@ describe("ModuleRegistry", () => {
 
     expect(document.body).toMatchSnapshot();
   });
-
-
-  it("adds a shared page module", () => {
-    const assetFactoryMock: AssetFactory = {
-      create(): (HTMLLinkElement | HTMLScriptElement)[] {
-        return [document.createElement("link")];
-      },
-    };
-    const moduleRegistry = new ModuleRegistry(false, assetFactoryMock);
-
-    const initialConfig: ModuleConfig = {
-      pages: [],
-      type: "page",
-      version: "1.0.0",
-      assets: [asset],
-      module: "test-module",
-      share: {
-        name: "test",
-      }
-    };
-
-    moduleRegistry.add(initialConfig);
-
-    expect(document.head).toMatchSnapshot();
-  });
 });

@@ -5,7 +5,6 @@ import { Config } from "~/core/Config";
 import { ModuleConfig } from "~/core/ModuleConfig";
 import { PageModuleService } from "~/core/PageModuleService";
 import { ObservedModuleService } from "~/core/ObservedModuleService";
-import { ImportMapRegistry } from "~/core/ImportMapRegistry";
 
 export interface ModuleRegistryInterface {
   add(config: Config): ModuleService;
@@ -14,7 +13,6 @@ export interface ModuleRegistryInterface {
 class ModuleRegistry implements ModuleRegistryInterface {
   private readonly logger;
   private readonly moduleServices: ModuleService[] = [];
-  private readonly importMapRegistry = new ImportMapRegistry();
   constructor(
     private readonly logEvents: boolean,
     private readonly assetFactory = new AssetFactory()
@@ -77,13 +75,6 @@ class ModuleRegistry implements ModuleRegistryInterface {
 
   private addModule(moduleConfig: ModuleConfig) {
     if (moduleConfig.type === "page") {
-      // NOTE: the order of adding import map dynamically is important,
-      // it should be done before the module is loaded
-      if (moduleConfig.share) {
-        this.importMapRegistry.add({
-          [moduleConfig.share.name]: moduleConfig.assets[0].src,
-        });
-      }
       const service = new PageModuleService(
         moduleConfig,
         this.assetFactory,

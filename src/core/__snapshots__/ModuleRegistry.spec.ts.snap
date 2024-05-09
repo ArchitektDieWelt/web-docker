@@ -1,16 +1,5 @@
 // Vitest Snapshot v1
 
-exports[`ModuleRegistry > adds a shared page module 1`] = `
-<head>
-  <script
-    type="importmap"
-  >
-    {"test":"http://src/1"}
-  </script>
-  <link />
-</head>
-`;
-
 exports[`ModuleRegistry > overrides service with similar module names 1`] = `
 <body>
   <link />
