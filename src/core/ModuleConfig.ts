@@ -24,6 +24,12 @@ export interface PageInclude {
 export interface PageModuleConfig extends ModuleConfigBase {
   type: "page";
   pages: (string | PageInclude)[];
+  exposes?: {
+    [key: string]: string;
+  };
+  use?: {
+    [key: string]: string;
+  };
 }
 
 export type ModuleConfig = ObservedModuleConfig | PageModuleConfig;

@@ -26,10 +26,15 @@ const initialize = async (options: WebDockerOptions) => {
   });
 
   const remoteConfigurations = await remoteConfigurationService.fetch();
-  remoteConfigurations?.forEach((config: Config) => {
-    const moduleConfig = moduleConfigService.getModuleConfig(config);
-    registry.add(moduleConfig);
-  });
+
+  if (remoteConfigurations) {
+    const reorderedPageConfigs = remoteConfigurationService.reorderPageConfigs(remoteConfigurations);
+
+    reorderedPageConfigs.forEach((config: Config) => {
+      const moduleConfig = moduleConfigService.getModuleConfig(config);
+      registry.add(moduleConfig);
+    });
+  }
 };
 
 export default initialize;

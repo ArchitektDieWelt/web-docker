@@ -38,6 +38,29 @@ class RemoteConfigurationService {
       return this.fetchConfigurations(this.configFilePath);
     }
   }
+
+  reorderPageConfigs(configs: Config[]): Config[] {
+    return configs.sort((a, b) => {
+      if (a.type === "page" && b.type !== "page") {
+        return -1;
+      }
+      if (a.type !== "page" && b.type === "page") {
+        return 1;
+      }
+      if (a.type === "page" && b.type === "page") {
+        if (!a.exposes)
+          return 1;
+        for (const expose in a.exposes) {
+          for (const use in b.use) {
+            if (expose === use) {
+              return -1;
+            }
+          }
+        }
+      }
+      return -1;
+    });
+  }
 }
 
 export { RemoteConfigurationService };
