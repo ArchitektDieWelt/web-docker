@@ -5,13 +5,16 @@ import ModuleRegistry from "~/core/ModuleRegistry";
 import { Config } from "~/core/Config";
 import { ModuleConfigService } from "~/core/ModuleConfig";
 import { RegisterEventType } from "~/core/RegisterEvent";
+import ScopeRegistry from "~/core/ScopeRegistry";
 
 export type WebDockerOptions = {
   configFilePath?: string;
   logEvents?: boolean;
+  scope?: string;
 };
 
 const initialize = async (options: WebDockerOptions) => {
+  new ScopeRegistry(options.scope ?? "webdocker");
   const moduleConfigService = new ModuleConfigService();
   const registry = new ModuleRegistry(options.logEvents ?? false);
   const remoteConfigurationService = new RemoteConfigurationService(options);
