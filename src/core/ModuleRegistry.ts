@@ -7,7 +7,7 @@ import { PageModuleService } from "~/core/PageModuleService";
 import { ObservedModuleService } from "~/core/ObservedModuleService";
 
 export interface ModuleRegistryInterface {
-  add(config: Config): ModuleService;
+  add(config: Config): Promise<ModuleService>;
 }
 
 class ModuleRegistry implements ModuleRegistryInterface {
@@ -20,7 +20,7 @@ class ModuleRegistry implements ModuleRegistryInterface {
     this.logger = new Logger("ModuleRegistry", logEvents);
   }
 
-  add(config: ModuleConfig): ModuleService {
+  add(config: ModuleConfig): Promise<ModuleService> {
     const registeredAssets: string[] = this.moduleServices.reduce<string[]>(
       (prev, service) => service.assetSources.concat(prev),
       []
@@ -56,7 +56,7 @@ class ModuleRegistry implements ModuleRegistryInterface {
   }
 
   // overrides existing module service if one is already registered
-  addReplace(config: ModuleConfig): ModuleService {
+  addReplace(config: ModuleConfig): Promise<ModuleService> {
     if (config.module) {
       let foundIndex = -1;
       const service = this.moduleServices.find((service, index) => {
@@ -73,15 +73,16 @@ class ModuleRegistry implements ModuleRegistryInterface {
     return this.addModule(config);
   }
 
-  private addModule(moduleConfig: ModuleConfig) {
+  private async addModule(moduleConfig: ModuleConfig): Promise<ModuleService> {
     if (moduleConfig.type === "page") {
       const service = new PageModuleService(
         moduleConfig,
         this.assetFactory,
         this.logEvents
       );
-      this.logger.log("registered page module: ", moduleConfig.module);
+      await service.load();
       this.moduleServices.push(service);
+      this.logger.log("registered page module: ", moduleConfig.module);
       return service;
     } else {
       const service = new ObservedModuleService(
@@ -89,8 +90,8 @@ class ModuleRegistry implements ModuleRegistryInterface {
         this.assetFactory,
         this.logEvents
       );
-      this.logger.log("registered observed module: ", moduleConfig.module);
       this.moduleServices.push(service);
+      this.logger.log("registered observed module: ", moduleConfig.module);
       return service;
     }
   }

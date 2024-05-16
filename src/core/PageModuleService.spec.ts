@@ -53,7 +53,9 @@ describe("PageModuleService", () => {
       },
     };
 
-    new PageModuleService(config, assetFactoryMock);
+    const service = new PageModuleService(config, assetFactoryMock);
+
+    await service.load();
 
     expect(document.body).toMatchSnapshot();
   });
@@ -73,7 +75,9 @@ describe("PageModuleService", () => {
       },
     };
 
-    new PageModuleService(config, assetFactoryMock);
+    const service = new PageModuleService(config, assetFactoryMock);
+
+    await service.load();
 
     expect(document.body).toMatchSnapshot();
   });
@@ -93,7 +97,9 @@ describe("PageModuleService", () => {
       },
     };
 
-    new PageModuleService(config, assetFactoryMock);
+    const service = new PageModuleService(config, assetFactoryMock);
+
+    await service.load();
 
     expect(document.body).toMatchSnapshot();
   });
@@ -113,7 +119,9 @@ describe("PageModuleService", () => {
       },
     };
 
-    new PageModuleService(config, assetFactoryMock);
+    const service = new PageModuleService(config, assetFactoryMock);
+
+    await service.load();
 
     expect(document.body).toMatchSnapshot();
   });
@@ -133,7 +141,9 @@ describe("PageModuleService", () => {
       },
     };
 
-    new PageModuleService(config, assetFactoryMock);
+    const service = new PageModuleService(config, assetFactoryMock);
+
+    await service.load();
 
     expect(document.body).toMatchSnapshot();
   });
@@ -153,7 +163,9 @@ describe("PageModuleService", () => {
       },
     };
 
-    new PageModuleService(config, assetFactoryMock);
+    const service = new PageModuleService(config, assetFactoryMock);
+
+    await service.load();
 
     expect(document.body).toMatchSnapshot();
   });

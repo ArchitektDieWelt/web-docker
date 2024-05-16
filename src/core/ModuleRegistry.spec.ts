@@ -28,7 +28,7 @@ afterEach(() => {
 });
 
 describe("ModuleRegistry", () => {
-  it("constructs", () => {
+  it("constructs", async () => {
     const moduleRegistry = new ModuleRegistry(false);
 
     expect(moduleRegistry).toBeTruthy();
@@ -41,12 +41,12 @@ describe("ModuleRegistry", () => {
     };
     const moduleRegistry = new ModuleRegistry(false, assetFactoryMock);
 
-    const service = moduleRegistry.add(config);
+    const service = await moduleRegistry.add(config);
 
     expect(service.module).toBe("test-module");
   });
 
-  it("does not allow services with similar custom component names", () => {
+  it("does not allow services with similar custom component names", async () => {
     const assetFactoryMock: AssetFactory = {
       create(): (HTMLLinkElement | HTMLScriptElement)[] {
         return [document.createElement("link")];
@@ -54,12 +54,12 @@ describe("ModuleRegistry", () => {
     };
     const moduleRegistry = new ModuleRegistry(false, assetFactoryMock);
 
-    moduleRegistry.add(config);
+    await moduleRegistry.add(config);
 
-    expect(() => moduleRegistry.add(config)).toThrow();
+    expect(async () => await moduleRegistry.add(config)).rejects.toThrow();
   });
 
-  it("does not allow services with similar journey names", () => {
+  it("does not allow services with similar journey names", async () => {
     const assetFactoryMock: AssetFactory = {
       create(): (HTMLLinkElement | HTMLScriptElement)[] {
         return [document.createElement("link")];
@@ -67,12 +67,12 @@ describe("ModuleRegistry", () => {
     };
     const moduleRegistry = new ModuleRegistry(false, assetFactoryMock);
 
-    moduleRegistry.add(config);
+    await moduleRegistry.add(config);
 
-    expect(() => moduleRegistry.add(config)).toThrow();
+    expect(async () => await moduleRegistry.add(config)).rejects.toThrow();
   });
 
-  it("does not allow services with duplicate assets", () => {
+  it("does not allow services with duplicate assets", async () => {
     const assetFactoryMock: AssetFactory = {
       create(): (HTMLLinkElement | HTMLScriptElement)[] {
         return [document.createElement("link")];
@@ -98,9 +98,9 @@ describe("ModuleRegistry", () => {
       assets: [asset, assetB],
     };
 
-    moduleRegistry.add(config);
+    await moduleRegistry.add(config);
 
-    expect(() => moduleRegistry.add(configA)).toThrow();
+    expect(async () => await moduleRegistry.add(configA)).rejects.toThrow();
   });
 
   it("overrides service with similar module names", () => {

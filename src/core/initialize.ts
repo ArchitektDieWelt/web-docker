@@ -6,6 +6,7 @@ import { Config } from "~/core/Config";
 import { ModuleConfigService } from "~/core/ModuleConfig";
 import { RegisterEventType } from "~/core/RegisterEvent";
 import ScopeRegistry from "~/core/ScopeRegistry";
+import { forEachSeries } from "~/core/utils";
 
 export type WebDockerOptions = {
   configFilePath?: string;
@@ -30,9 +31,9 @@ const initialize = async (options: WebDockerOptions) => {
   if (remoteConfigurations) {
     const reorderedPageConfigs = remoteConfigurationService.reorderPageConfigs(remoteConfigurations);
 
-    reorderedPageConfigs.forEach((config: Config) => {
+    await forEachSeries(reorderedPageConfigs, async (config: Config) => {
       const moduleConfig = moduleConfigService.getModuleConfig(config);
-      registry.add(moduleConfig);
+      await registry.add(moduleConfig);
     });
   }
 };

@@ -1,5 +1,6 @@
 import { Asset, AssetLink, AssetPosition, AssetScript } from "~/core/Asset";
 
+export type HtmlAsset = HTMLLinkElement | HTMLScriptElement;
 export default class AssetFactory {
   private static buildTagScript(attr: AssetScript): HTMLScriptElement {
     const script = document.createElement("script");
@@ -34,7 +35,7 @@ export default class AssetFactory {
     assets: Asset[],
     position: AssetPosition = "head",
     countryCode?: string
-  ): (HTMLLinkElement | HTMLScriptElement)[] {
+  ): HtmlAsset[] {
     return (
       countryCode
         ? assets.filter(
