@@ -21,9 +21,6 @@ class ServiceExtension implements ModuleService {
   remove(): void {
     throw new Error("Method not implemented.");
   }
-  get type(): IncludeType {
-    throw new Error("Method not implemented.");
-  }
 }
 
 const registry = new ModuleRegistry(true);
