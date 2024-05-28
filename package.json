@@ -1,6 +1,6 @@
 {
   "name": "@openreplyde/web-docker",
-  "version": "1.2.2",
+  "version": "1.3.0-alpha.6",
   "type": "module",
   "files": [
     "dist"

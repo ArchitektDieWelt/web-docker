@@ -21,5 +21,5 @@
     }
   },
   "include": ["src/core/**/*"],
-  "exclude": ["src/core/main.ts"]
+  "exclude": ["src/core/main.ts", "src/core/ServiceExtension.ts"]
 }

@@ -1,4 +1,4 @@
-import initialize from "~/core/initialize";
+import { initialize } from "~/core/initialize";
 
 initialize({
   configFilePath: import.meta.env.VITE_CONFIG_FILE_PATH,

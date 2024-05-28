@@ -1,7 +1,13 @@
 import { Asset } from "~/core/Asset";
 import { Config } from "~/core/Config";
 
-export type IncludeType = "observed" | "page";
+export interface IncludeTypeMap {
+  observed: string;
+  page: string;
+  userDefined: string;
+}
+
+export type IncludeType = keyof IncludeTypeMap;
 
 export interface ModuleConfigBase {
   version: string;
@@ -32,7 +38,12 @@ export interface PageModuleConfig extends ModuleConfigBase {
   };
 }
 
-export type ModuleConfig = ObservedModuleConfig | PageModuleConfig;
+export interface UserDefinedModuleConfig extends ModuleConfigBase {
+  type: "userDefined";
+  [key: string]: unknown;
+}
+
+export type ModuleConfig = ObservedModuleConfig | PageModuleConfig | UserDefinedModuleConfig;
 
 export class ModuleConfigService {
   public getModuleConfig(config: Config): ModuleConfig {

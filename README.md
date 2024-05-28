@@ -55,20 +55,74 @@ logging is disabled by default. To enable logging, set the following environment
     VITE_APP_LOG_EVENTS=true
    ```
 
-### APIS
+### Running the Web Docker as NPM package
 
-In order to register new components to the web docker, the following APIs can be used
+1. Install the package
+   ```bash
+      npm install @web-docker/web-docker
+   ```
+2. Import the package in your project
+   ```javascript
+      import { WebDocker } from '@openreplyde/web-docker'
+   ```
+3. Initialize the Web Docker- the default construction does not require any parameters and fetches remote configs per default
+   ```javascript
+      const webDocker = new WebDocker()
+   ```
 
-## 1 - Registering using custom events
+### Extending the Web Docker with custom Services
+Webdocker is designed to be extensible. You can extend the Web Docker with custom services by implementing the `ModuleService` interface.
+The custom service can be added to the Web Docker by calling the `addService` method.
 
-```javascript
-    window.dispatchEvent(new CustomEvent('webdocker:register', {
-        detail: {
-            name: 'page-module',
-            resources: [
-                'http://domain/page-module.js',
-                'http://domain/page-module.css'
-            ]
-        }
-    }));
+```typescript
+import { WebDocker, ModuleService } from '@openreplyde/web-docker'
+
+declare module '@openreplyde/web-docker' {
+  interface IncludeTypeMap {
+    customType: string;
+  }
+}
+
+class CustomService implements ModuleService {
+    constructor(
+      private readonly config: { events: {} },
+      private readonly assetFactory = new AssetFactory(),
+      private readonly logEvents: boolean = false) {
+        // initialize the service
+    }
+
+    async load(): Promise<void> {
+        // load the module
+    }
+    
+   get assetSources(): string[] {
+        // return the asset sources
+   }
+   
+   get module(): string {
+        // return the module name
+   }
+   
+   remove(): void {
+        // remove the module
+   }
+}
+
+const registry = new ModuleRegistry(true);
+registry.addModuleServiceFactory({ type: 'customType', constructor: ServiceExtension });
+
+const options = {
+   configFilePath: "https://your-config-url.com",
+   logEvents: false,
+   scope: "webdocker"
+}
+
+const moduleConfigService = new ModuleConfigService();
+const remoteConfigService = new RemoteConfigService(options);
+
+const webDocker = new Webdocker(options, registry, moduleConfigService, remoteConfigService);
 ```
+
+moduleConfigService and remoteConfigService are optional parameters. If not provided, the default services are used.
+
+

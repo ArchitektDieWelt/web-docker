@@ -2,7 +2,7 @@ import { ModuleService } from "./ModuleService";
 import AssetFactory from "~/core/AssetFactory";
 import { Logger } from "~/core/Logger";
 import { Config } from "~/core/Config";
-import { ModuleConfig } from "~/core/ModuleConfig";
+import { IncludeType, ModuleConfig } from "~/core/ModuleConfig";
 import { PageModuleService } from "~/core/PageModuleService";
 import { ObservedModuleService } from "~/core/ObservedModuleService";
 
@@ -10,9 +10,19 @@ export interface ModuleRegistryInterface {
   add(config: Config): Promise<ModuleService>;
 }
 
+export interface ModuleServiceConstructor {
+  new(config: ModuleConfig,
+      assetFactory: AssetFactory,
+      logEvents: boolean): ModuleService;
+}
+
 class ModuleRegistry implements ModuleRegistryInterface {
   private readonly logger;
   private readonly moduleServices: ModuleService[] = [];
+  private readonly moduleServiceFactories: {
+    type: string;
+    constructor: ModuleServiceConstructor;
+  }[] = [];
   constructor(
     private readonly logEvents: boolean,
     private readonly assetFactory = new AssetFactory()
@@ -84,7 +94,7 @@ class ModuleRegistry implements ModuleRegistryInterface {
       this.moduleServices.push(service);
       this.logger.log("registered page module: ", moduleConfig.module);
       return service;
-    } else {
+    } else if (moduleConfig.type === "observed") {
       const service = new ObservedModuleService(
         moduleConfig,
         this.assetFactory,
@@ -93,7 +103,33 @@ class ModuleRegistry implements ModuleRegistryInterface {
       this.moduleServices.push(service);
       this.logger.log("registered observed module: ", moduleConfig.module);
       return service;
+    } else {
+      const factory = this.moduleServiceFactories.find(
+        (factory) => factory.type === moduleConfig.type
+      );
+      if (factory) {
+        const service = new factory.constructor(
+          moduleConfig,
+          this.assetFactory,
+          this.logEvents
+        );
+        await service.load();
+        this.moduleServices.push(service);
+        this.logger.log("registered module: ", moduleConfig.module);
+        return service;
+      }
     }
+    throw Error(`No module service factory found for type: ${moduleConfig.type}`);
+  }
+
+  public addModuleServiceFactory({
+    type,
+    constructor,
+  }: {
+    type: IncludeType;
+    constructor: ModuleServiceConstructor;
+  }): void {
+    this.moduleServiceFactories.push({ type, constructor });
   }
 }
 

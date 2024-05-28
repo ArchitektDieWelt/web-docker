@@ -89,10 +89,6 @@ class PageModuleService implements ModuleService {
     return this.config.module;
   }
 
-  get type(): IncludeType {
-    return this.config.type;
-  }
-
   remove(): void {
     this.logger.warn("remove() is not implemented for PageModuleService");
   }

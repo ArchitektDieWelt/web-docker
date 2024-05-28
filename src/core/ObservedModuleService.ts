@@ -22,6 +22,10 @@ class ObservedModuleService implements ModuleService {
     this.observe();
   }
 
+  load(): Promise<void> {
+    return Promise.resolve();
+  }
+
   private elementExists(): boolean {
     return !!document.querySelector(this.config.selector);
   }
@@ -81,10 +85,6 @@ class ObservedModuleService implements ModuleService {
 
   get module(): string {
     return this.config.module;
-  }
-
-  get type(): IncludeType {
-    return this.config.type;
   }
 
   remove(): void {
