@@ -129,6 +129,11 @@ class ModuleRegistry implements ModuleRegistryInterface {
     type: IncludeType;
     constructor: ModuleServiceConstructor;
   }): void {
+    if (type === "page" || type === "observed") {
+      throw Error(
+        `Cannot register factory for reserved type: ${type}.`
+      );
+    }
     this.moduleServiceFactories.push({ type, constructor });
   }
 }
