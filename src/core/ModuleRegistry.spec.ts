@@ -133,4 +133,32 @@ describe("ModuleRegistry", () => {
 
     expect(document.body).toMatchSnapshot();
   });
+
+  it("does return service by name", async () => {
+    // Setup test
+    const assetFactoryMock: AssetFactory = {
+      create(): (HTMLLinkElement | HTMLScriptElement)[] {
+        return [document.createElement("link")];
+      },
+    };
+    const moduleRegistry = new ModuleRegistry(false, assetFactoryMock);
+
+    const service = await moduleRegistry.add(config);
+    // End test setup
+
+    expect(moduleRegistry.getByModuleName(config.module)).toEqual(service);
+  });
+
+  it("throws when requested service does not exist in registry", async () => {
+    // Setup test
+    const assetFactoryMock: AssetFactory = {
+      create(): (HTMLLinkElement | HTMLScriptElement)[] {
+        return [document.createElement("link")];
+      },
+    };
+    const moduleRegistry = new ModuleRegistry(false, assetFactoryMock);
+    // End test setup
+
+    expect(() => moduleRegistry.getByModuleName("invalid-module-name")).toThrowError("A module with name: invalid-module-name has not been registered.");
+  });
 });
