@@ -8,6 +8,7 @@ import { ObservedModuleService } from "~/core/ObservedModuleService";
 
 export interface ModuleRegistryInterface {
   add(config: Config): Promise<ModuleService>;
+  getByModuleName(moduleName: string): ModuleService
 }
 
 export interface ModuleServiceConstructor {
@@ -28,6 +29,17 @@ class ModuleRegistry implements ModuleRegistryInterface {
     private readonly assetFactory = new AssetFactory()
   ) {
     this.logger = new Logger("ModuleRegistry", logEvents);
+  }
+
+  getByModuleName(moduleName: string): ModuleService {
+    const service = this.moduleServices.find(
+      (moduleService) => moduleService.module && moduleService.module === moduleName
+    );
+    if (!service) {
+      throw Error(`A module with name: ${moduleName} has not been registered.`);
+    }
+
+    return service;
   }
 
   add(config: ModuleConfig): Promise<ModuleService> {

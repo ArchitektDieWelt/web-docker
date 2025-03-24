@@ -1,12 +1,10 @@
 import AssetFactory, { HtmlAsset } from "./AssetFactory";
 import { Logger } from "~/core/Logger";
 import type {
-  IncludeType,
   PageInclude,
   PageModuleConfig,
 } from "~/core/ModuleConfig";
 import { ModuleService } from "~/core/ModuleService";
-import { HTMLScriptElement } from "happy-dom";
 import { forEachSeries } from "~/core/utils";
 
 class PageModuleService implements ModuleService {
